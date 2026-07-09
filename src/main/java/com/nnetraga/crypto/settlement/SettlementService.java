@@ -1,6 +1,7 @@
 package com.nnetraga.crypto.settlement;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class SettlementService {
     private final ChainSettlementAdapter chainSettlementAdapter;
@@ -45,5 +46,10 @@ public class SettlementService {
     public SettlementIntent markNeedsReview(SettlementIntent intent) {
         Objects.requireNonNull(intent, "intent is required");
         return settlementRepository.save(intent.markNeedsReview());
+    }
+
+    public Optional<SettlementIntent> findByIdempotencyKey(String idempotencyKey) {
+        Objects.requireNonNull(idempotencyKey, "idempotencyKey is required");
+        return settlementRepository.findByIdempotencyKey(idempotencyKey);
     }
 }
