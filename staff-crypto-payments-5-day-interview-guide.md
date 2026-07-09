@@ -68,50 +68,67 @@ Every topic gets four passes:
 
 Do not spend five days reading. The interview will reward recall under pressure, not passive familiarity.
 
-## Day 1: Loop Readiness And DSA Baseline
+## Day 1: Crypto Payments Domain Ramp
 
 Outcome:
 
-- Know the expected interview loop.
-- Have your resume/project story skeleton.
-- Complete a timed DSA baseline.
+- You can talk credibly about blockchain integration without pretending to be a protocol engineer.
+- You understand the payment problem crypto rails are trying to solve: faster settlement, 24/7 movement, reconciliation, and programmable money movement.
+- The project has an EVM-facing component or realistic adapter started early.
+
+Do:
+
+- Write a one-page crypto/payments primer in the project README:
+  - what a stablecoin is
+  - why settlement differs from cardholder payment UX
+  - why 24/7 settlement still needs reconciliation
+  - what risks exist around chain confirmations, replay, and private keys
+- Add a `ChainSettlementAdapter` design note before coding the main backend.
+- Implement a local/mock adapter first.
+- Optional but valuable: add a small Solidity contract tested with Foundry or Hardhat:
+  - records settlement instruction hash
+  - emits event
+  - prevents duplicate instruction IDs
+- Add a security notes file:
+  - private key handling
+  - replay protection
+  - chain reorg/confirmation policy
+  - smart contract testing
+  - audit assumptions
+
+Project slice:
+
+- `docs/crypto-primer.md`
+- `docs/security-notes.md`
+- `ChainSettlementAdapter` interface or pseudocode
+- mock chain settlement implementation
+- optional Solidity contract and tests
+
+Interview drill:
+
+- Explain stablecoin settlement versus cardholder payment UX.
+- Explain why blockchain settlement can be 24/7 but still needs reconciliation.
+- Explain how you prevent replay/double-settlement.
+- Explain smart contract test strategy.
+- Explain the difference between "I built a learning adapter" and "I have production blockchain experience" clearly and confidently.
+
+## Day 2: Java/Spring Settlement Core
+
+Outcome:
+
+- You can survive a project + Java/Spring deep dive.
+- The project has real API and transactional behavior.
 
 Do:
 
 - Ask recruiter the loop-confirmation questions above.
 - Prepare two 90-second stories: "largest backend system I built" and "hardest production issue I owned."
-- Solve 6 timed DSA problems:
-  - two pointers/sliding window
-  - hashmap/counting
-  - stack
-  - tree DFS
-  - binary search
-  - DP or backtracking
 - Start the project README with architecture, API examples, and "what I would discuss in an interview."
-
-Project slice:
-
-- Spring Boot API skeleton.
-- `POST /settlement-intents`
-- `GET /settlement-intents/{id}`
-- idempotency key contract.
-- PostgreSQL schema for settlement intent, ledger entry, and idempotency request.
-
-Interview drill:
-
-- Explain why idempotency matters in payments.
-- Explain `@Transactional` boundaries and rollback behavior.
-- Explain when you would use unique constraints versus distributed locks.
-
-## Day 2: Java/Spring Deep Dive
-
-Outcome:
-
-- You can survive a project + Java/Spring deep dive.
-- The project has real transactional behavior.
-
-Do:
-
+- Create the Spring Boot API skeleton.
+- Add `POST /settlement-intents`.
+- Add `GET /settlement-intents/{id}`.
+- Define the idempotency key contract.
+- Create PostgreSQL schema for settlement intent, ledger entry, and idempotency request.
 - Implement idempotent request handling with a DB-backed key.
 - Add optimistic locking or version field to settlement records.
 - Add validation, exception mapping, and consistent error response.
@@ -126,6 +143,9 @@ Study:
 
 Interview drill:
 
+- Explain why idempotency matters in payments.
+- Explain `@Transactional` boundaries and rollback behavior.
+- Explain when you would use unique constraints versus distributed locks.
 - Implement LRU cache in Java.
 - Explain how Spring creates beans and proxies.
 - Explain why a transaction can silently not apply with self-invocation.
@@ -173,42 +193,46 @@ Staff-level answer pattern:
 - Discuss failure modes before scaling tricks.
 - Close with rollout, migration, SLOs, and operational ownership.
 
-## Day 4: Crypto Program Focus
+## Day 4: Loop Readiness And DSA Baseline
 
 Outcome:
 
-- You can talk credibly about blockchain integration without pretending to be a protocol engineer.
-- Project has an EVM-facing component or realistic adapter.
+- Know the expected interview loop.
+- Have your resume/project story skeleton.
+- Complete a timed DSA baseline.
+- Connect your new crypto project to your existing backend experience without overclaiming.
 
 Do:
 
-- Add a `ChainSettlementAdapter` interface.
-- Implement a local/mock adapter first.
-- Optional but valuable: add a small Solidity contract tested with Foundry or Hardhat:
-  - records settlement instruction hash
-  - emits event
-  - prevents duplicate instruction IDs
-- Add a security notes file:
-  - private key handling
-  - replay protection
-  - chain reorg/confirmation policy
-  - smart contract testing
-  - audit assumptions
+- Confirm the recruiter loop if not already confirmed.
+- Prepare the project walkthrough:
+  - problem
+  - architecture
+  - correctness invariants
+  - tradeoffs
+  - what is built versus simulated
+  - what you would harden for production
+- Solve 6 timed DSA problems:
+  - two pointers/sliding window
+  - hashmap/counting
+  - stack
+  - tree DFS
+  - binary search
+  - DP or backtracking
 
 Study:
 
-- Stablecoins, settlement, issuer/acquirer flow at a high level.
-- EVM, gas, events, confirmations, reorgs, chain IDs.
-- ERC-20 basics, ERC standards, EIPs.
-- DeFi basics: liquidity pools, oracles, bridges, smart contract risk.
-- Consensus basics: proof-of-stake, finality, validator risk.
+- Coding patterns: two pointers, hashmap, stack, tree DFS, binary search, simple DP.
+- Java implementation speed: collections, streams, comparator, null-safe handling.
+- Resume narrative: map prior backend work to settlement project patterns.
+- Behavioral setup: production incident, ambiguity, technical leadership, disagreement.
 
 Interview drill:
 
-- Explain stablecoin settlement versus cardholder payment UX.
-- Explain why blockchain settlement can be 24/7 but still needs reconciliation.
-- Explain how you prevent replay/double-settlement.
-- Explain smart contract test strategy.
+- 30-minute timed DSA mini-mock.
+- 10-minute project pitch.
+- 10-minute Java/Spring rapid-fire.
+- 10-minute behavioral story with follow-ups.
 
 ## Day 5: Full Loop Simulation
 
