@@ -6,6 +6,12 @@ This repository tracks a focused 5-day preparation plan for staff-level backend 
 
 - [Staff Crypto Payments 5-Day Interview Guide](staff-crypto-payments-5-day-interview-guide.md)
 
+## Day 1 Materials
+
+- [Crypto Payments Primer](docs/crypto-primer.md)
+- [Crypto Settlement Security Notes](docs/security-notes.md)
+- [Day 1 Crypto Checklist](docs/day-1-crypto-checklist.md)
+
 The guide covers:
 
 - Likely interview format and rounds for staff-level backend roles
