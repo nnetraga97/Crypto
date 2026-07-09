@@ -99,4 +99,21 @@ public record SettlementIntent(
                 createdAt,
                 Instant.now());
     }
+
+    public SettlementIntent markSettled() {
+        if (status != SettlementStatus.CONFIRMING) {
+            throw new IllegalStateException(
+                    "SettlementIntent must be CONFIRMING to mark as settled. Current status: " + status);
+        }
+        return new SettlementIntent(
+                settlementId,
+                idempotencyKey,
+                amount,
+                asset,
+                destinationAddress,
+                SettlementStatus.SETTLED,
+                chainTransactionHash,
+                createdAt,
+                Instant.now());
+    }
 }
