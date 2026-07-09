@@ -116,4 +116,22 @@ public record SettlementIntent(
                 createdAt,
                 Instant.now());
     }
+
+    public SettlementIntent markNeedsReview() {
+        if (status != SettlementStatus.SUBMITTED && status != SettlementStatus.CONFIRMING) {
+            throw new IllegalStateException(
+                    "SettlementIntent must be SUBMITTED or CONFIRMING to mark as needs review. Current status: "
+                            + status);
+        }
+        return new SettlementIntent(
+                settlementId,
+                idempotencyKey,
+                amount,
+                asset,
+                destinationAddress,
+                SettlementStatus.NEEDS_REVIEW,
+                chainTransactionHash,
+                createdAt,
+                Instant.now());
+    }
 }
