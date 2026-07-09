@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.nnetraga.crypto.settlement.domain.ChainSubmissionResult;
 import com.nnetraga.crypto.settlement.domain.IdempotencyRequest;
@@ -63,6 +64,7 @@ public class SettlementService {
                 Objects.requireNonNull(settlementEventPublisher, "settlementEventPublisher is required");
     }
 
+    @Transactional
     public SettlementIntent submit(SettlementIntent intent) {
         Objects.requireNonNull(intent, "intent is required");
         String requestHash = settlementRequestHasher.hash(intent);
