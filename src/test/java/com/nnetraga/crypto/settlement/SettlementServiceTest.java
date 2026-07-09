@@ -15,6 +15,13 @@ public class SettlementServiceTest {
     }
 
     @Test
+    public void constructorRejectsNullRepository() {
+        assertThrows(
+                NullPointerException.class,
+                () -> new SettlementService(new FakeChainSettlementAdapter(), null));
+    }
+
+    @Test
     public void submitRejectsNullIntent() {
         SettlementService service = new SettlementService(new FakeChainSettlementAdapter());
 
@@ -38,6 +45,18 @@ public class SettlementServiceTest {
 
         assertEquals("fake-tx-settlement123", submittedIntent.chainTransactionHash());
         assertNotNull(submittedIntent.updatedAt());
+    }
+
+    @Test
+    public void submitReturnsExistingIntentForRepeatedIdempotencyKey() {
+        CountingChainSettlementAdapter adapter = new CountingChainSettlementAdapter();
+        SettlementService service = new SettlementService(adapter);
+
+        SettlementIntent firstSubmission = service.submit(newIntent());
+        SettlementIntent retrySubmission = service.submit(newIntent());
+
+        assertEquals(firstSubmission, retrySubmission);
+        assertEquals(1, adapter.submissionCount());
     }
 
     @Test
@@ -80,5 +99,19 @@ public class SettlementServiceTest {
                 new BigDecimal("100.00"),
                 "BTC",
                 "destinationAddress123");
+    }
+
+    private static final class CountingChainSettlementAdapter implements ChainSettlementAdapter {
+        private int submissionCount;
+
+        @Override
+        public ChainSubmissionResult submit(SettlementIntent settlementIntent) {
+            submissionCount++;
+            return ChainSubmissionResult.submitted("counting-tx-" + settlementIntent.settlementId());
+        }
+
+        private int submissionCount() {
+            return submissionCount;
+        }
     }
 }
