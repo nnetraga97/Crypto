@@ -1,4 +1,5 @@
 .DS_Store
+.vscode/
 target/
 
 # Keep personal career documents out of the public repository.

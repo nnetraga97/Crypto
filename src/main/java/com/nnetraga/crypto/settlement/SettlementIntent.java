@@ -62,4 +62,24 @@ public record SettlementIntent(
                 now,
                 now);
     }
+
+    public SettlementIntent markSubmitted(ChainSubmissionResult submissionResult) {
+        if (submissionResult == null) {
+            throw new IllegalArgumentException("submissionResult is required");
+        }
+        if (status != SettlementStatus.CREATED && status != SettlementStatus.VALIDATED) {
+            throw new IllegalStateException(
+                    "SettlementIntent must be CREATED or VALIDATED to submit. Current status: " + status);
+        }
+        return new SettlementIntent(
+                settlementId,
+                idempotencyKey,
+                amount,
+                asset,
+                destinationAddress,
+                SettlementStatus.SUBMITTED,
+                submissionResult.transactionHash(),
+                createdAt,
+                submissionResult.submittedAt());
+    }
 }

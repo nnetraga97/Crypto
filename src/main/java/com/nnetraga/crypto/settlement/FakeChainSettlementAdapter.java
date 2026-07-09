@@ -6,6 +6,6 @@ public class FakeChainSettlementAdapter implements ChainSettlementAdapter {
     @Override
     public ChainSubmissionResult submit(SettlementIntent settlementIntent) {
         Objects.requireNonNull(settlementIntent, "settlementIntent is required");
-        return ChainSubmissionResult.submitted("fake-tx-"+settlementIntent.settlementId());
+        return ChainSubmissionResult.submitted("fake-tx-" + settlementIntent.settlementId());
     }
 }
