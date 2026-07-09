@@ -22,3 +22,13 @@ Steps:
 1. Add command-style endpoints for confirming, settled, and needs-review transitions.
 2. Map invalid state transitions to HTTP 409 Conflict.
 3. Add focused API tests for the happy path, missing keys, and invalid transitions.
+
+## Idempotency request model
+
+Goal: model the durable idempotency record before adding database-backed storage.
+
+Steps:
+
+1. Add tests for required idempotency key and request hash.
+2. Represent idempotency state with `IdempotencyStatus`, not a raw string.
+3. Add completed and failed transitions for request processing.
