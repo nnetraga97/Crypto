@@ -82,4 +82,21 @@ public record SettlementIntent(
                 createdAt,
                 submissionResult.submittedAt());
     }
+
+    public SettlementIntent markConfirming() {
+        if (status != SettlementStatus.SUBMITTED) {
+            throw new IllegalStateException(
+                    "SettlementIntent must be SUBMITTED to mark as confirming. Current status: " + status);
+        }
+        return new SettlementIntent(
+                settlementId,
+                idempotencyKey,
+                amount,
+                asset,
+                destinationAddress,
+                SettlementStatus.CONFIRMING,
+                chainTransactionHash,
+                createdAt,
+                Instant.now());
+    }
 }
