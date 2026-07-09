@@ -11,6 +11,7 @@ This repository tracks a focused 5-day preparation plan for staff-level backend 
 - [Crypto Payments Primer](docs/crypto-primer.md)
 - [Crypto Settlement Security Notes](docs/security-notes.md)
 - [Day 1 Crypto Checklist](docs/day-1-crypto-checklist.md)
+- [Day 1 Coding Guide](docs/day-1-coding-guide.md)
 
 The guide covers:
 

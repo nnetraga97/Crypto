@@ -1,4 +1,5 @@
 .DS_Store
+target/
 
 # Keep personal career documents out of the public repository.
 *Resume*.pdf
