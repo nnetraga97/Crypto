@@ -47,6 +47,8 @@ docker compose up -d
 mvn spring-boot:run -Dspring-boot.run.profiles=postgres
 ```
 
+The Docker profile exposes Postgres on host port `15432` to avoid clashing with an existing local database on `5432`.
+
 ## API Examples
 
 Create a settlement:
